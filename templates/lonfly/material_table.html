@@ -1,0 +1,56 @@
+{% extends 'lonfly/base.html' %}
+{% load static %}
+
+{% block title%}材料列表{% endblock %}
+{% block menu  %}material_table{% endblock %}
+{% block menu_name %}材料{% endblock %}
+
+{% block body_block %}
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-table"></i>材料列表</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>材料名称</th>
+                            <th>材料规格</th>
+                            <th>库存量</th>
+                            <th>使用量</th>
+                            {% if user.is_authenticated and user.username == "admin" %}
+                            <th class="sorting_asc_disabled sorting_desc_disabled"></th>
+                            <th class="sorting_asc_disabled sorting_desc_disabled"></th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if material_list %}
+                        {% for material in material_list %}
+                        <tr>
+                            <td>{{ material.name }}</td>
+                            <td>{{ material.code }}</td>
+                            <td>{{ material.inventory }}</td>
+                            <td>{{ material.used }}</td>
+                            {% if user.is_authenticated and user.username == "admin" %}
+                                <td>
+                                    <a href="{% url 'material_update' material.id %}"><i class="fa fa-edit"></i>编辑</a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'material_delete' material.id %}"><i class="fa fa-remove"></i>删除</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer small text-muted">数据更新时间：{{ table_update_time }}</div>
+    </div>
+    {% if user.is_authenticated and user.username == "admin" %}
+    <a class="btn btn-primary" href="{% url 'material_add' %}" id="material_add">添加新材料</a>
+    {% endif %}
+{% endblock %}
+

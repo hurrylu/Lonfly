@@ -1,0 +1,110 @@
+{% extends 'lonfly/base.html' %}
+{% load static %}
+
+{% block title %}报表统计 - 按作业员{% endblock %}
+
+{% block menu  %}report_by_worker{% endblock %}
+{% block menu_name %}按作业员统计{% endblock %}
+
+{% block body_block %}
+    <div id="toolbar">
+        <form id="report-search" method="get">
+            <div>
+                <select id="field_choice" name="field_choice" class="form-control" multiple="multiple">
+                    <option value="all">所有成员</option>
+                    {% for worker in worker_list %}
+                        <option value="{{ worker }}">{{ worker }}</option>
+                    {% endfor %}
+                </select>
+
+                <datalist id="field_list">
+                    <option value="all">所有成员</option>
+                    {% for worker in worker_list %}
+                        <option value="{{ worker }}">{{ worker }}</option>
+                    {% endfor %}
+                </datalist>
+                <p></p>
+                开始日期: <input type="date" id="start_date" name="start_date"/><br />
+                <p></p>
+                结束日期: <input type="date" id="end_date" name="end_date"/><br />
+                <p></p>
+             <!--
+                <label for="searchbar"><img src="{% static "img/search.svg" %}" alt="Search" /></label>
+                <input type="text" size="30" list="field_list" name="search_var" id="searchbar" autofocus>
+            -->
+                <input type="submit" class="btn btn-sm btn-info" value="搜索">
+            </div>
+        </form>
+    </div>
+    <p></p>
+    <div class="card mb-5">
+        <div class="card-header">
+            <i class="fa fa-table"></i>查询结果
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>产品名称</th>
+                            <th>工序</th>
+                            <th>材料规格</th>
+                            <th>定额数量</th>
+                            <th>作业员</th>
+                            <th>生产数量</th>
+                            <th>作业要点指导</th>
+                            <th>首检记录</th>
+                            <th>巡检记录</th>
+                            <th>日期</th>
+                            <th>检验员</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for produce in query_result %}
+                            <tr>
+                                <td>{{ produce.product.product_id }}({{ produce.product.product_name }})</td>
+                                <td>{{ produce.process.name }}({{ produce.process.code }})</td>
+                                <td>{{ produce.material.name }}({{ produce.material.code }})</td>
+                                <td>{{ produce.assigned_num }}</td>
+                                <td>{{ produce.operator }}</td>
+                                <td>{{ produce.produce_num }}</td>
+                                <td>{{ produce.process_des }}</td>
+                                <td>{{ produce.detect_log }}</td>
+                                <td>{{ produce.inspect_log }}</td>
+                                <td>{{ produce.inspect_date }}</td>
+                                <td>{{ produce.inspector }}</td>
+                                <td>{{ produce.description }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <th>作业员</th>
+                        <th>合计生产产品类数</th>
+                        <th>合计分配总定额数</th>
+                        <th>合计生产件数</th>
+                        <th>平均生产件数</th>
+                    </thead>
+                    <tbody>
+                        {% for sum in query_sum %}
+                        <tr>
+                            <td>{{ sum.operator__worker_name }}</td>
+                            <td>{{ sum.product_count }}</td>
+                            <td>{{ sum.assigned_sum }}</td>
+                            <td>{{ sum.produce_num_sum }}</td>
+                            <td>{{ sum.produce_num_avg }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

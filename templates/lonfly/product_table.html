@@ -1,0 +1,65 @@
+{% extends 'lonfly/base.html' %}
+{% load static %}
+
+{% block title%}产品列表{% endblock %}
+{% block menu  %}product_table{% endblock %}
+{% block menu_name %}产品{% endblock %}
+
+{% block body_block %}
+    <div class="card mb-3" >
+        <div class="card-header">
+            <i class="fa fa-table"></i>产品列表</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%"  cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>产品标识</th>
+                            <th>产品名称</th>
+                            <th>订单数量</th>
+                            <th>交付日期</th>
+                            <th>订单状态</th>
+                            {% if user.is_authenticated and user.username == "admin" %}
+                            <th class="sorting_asc_disabled sorting_desc_disabled"></th>
+                            <th class="sorting_asc_disabled sorting_desc_disabled"></th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if products %}
+                        {% for product in products %}
+                        <tr>
+                            <td>{{ product.product_id }}</td>
+                            <td><a href="/lonfly/product/{{ product.product_id }}">{{ product.product_name }}</a></td>
+                            <td>{{ product.order_num }}</td>
+                            <td>{{ product.deliver_date }}</td>
+                            {% if product.order_stats == "未开始" %}
+                                <td><b><font color="red">{{ product.order_stats }}</font></b></td>
+                            {% elif product.order_stats == "进行中" %}
+                                <td><b><font color="blue">{{ product.order_stats }}</font></b></td>
+                            {% elif product.order_stats == "已完成" %}
+                                <td><b><font color="#808080">{{ product.order_stats }}</font></b></td>
+                            {% endif %}
+                            {% if user.is_authenticated and user.username == "admin" %}
+                                {% if product.order_stats == "已完成" %}
+                                    <td></td>
+                                    <td></td>
+                                {% else %}
+                                    <td><a href="/lonfly/product/{{ product.product_id }}/update"><i class="fa fa-edit"></i>编辑</a></td>
+                                    <td><a href="/lonfly/product/{{ product.product_id }}/delete"><i class="fa fa-remove"></i>删除</a></td>
+                                {% endif %}
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer small text-muted">数据更新时间：{{ table_update_time }}</div>
+    </div>
+    {% if user.is_authenticated and user.username == "admin" %}
+    <a class="btn btn-primary" href="{% url 'product_add' %}" id="product_add">添加新产品</a>
+    {% endif %}
+{% endblock %}
+

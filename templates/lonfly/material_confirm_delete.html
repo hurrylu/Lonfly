@@ -1,0 +1,29 @@
+{% extends 'lonfly/base.html' %}
+
+{% block title %}{{ material.name }} - 删除材料{% endblock %}
+{% block menu  %}material_table{% endblock %}
+{% block menu_name %}材料{% endblock %}
+{% block submenu_name %}
+    <li class="breadcrumb-item active">
+        {{ material.name }}
+    </li>
+{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="card card-columns mx-0 mt-3">
+            <div class="card-header">删除材料</div>
+            <div class="card-body">
+                <form id="process_form" method="post" action="">
+                    {% csrf_token %}
+                    <p>确认删除该条记录: <b>"{{ object }}"</b>?</p>
+                    <div class="mx-6 mt-5">
+                        <button type="submit" class="btn btn-success">提交</button>
+                        <a class="btn btn-danger" style="float: right" href="/lonfly/material_table/">取消</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

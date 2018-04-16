@@ -1,0 +1,35 @@
+{% extends 'lonfly/base.html' %}
+
+{% block title %}{{ product }} - 添加生产程序{% endblock %}
+{% block menu  %}product_table{% endblock %}
+{% block menu_name %}产品{% endblock %}
+{% block submenu_name %}
+    <li class="breadcrumb-item active">
+        <a href="/lonfly/product/{{ product_id }}/">{{ product_id }}</a>
+    </li>
+{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="card card-columns mx-0 mt-3">
+            <div class="card-header">添加生产程序</div>
+            <div class="card-body">
+                <form id="produce_form" method="post" action="/lonfly/product/{{ product_id }}/add_produce/">
+                    {% csrf_token %}
+                    {% for field in formset %}
+                        <div class="form-group">
+                            {{ field.errors }}<br />
+                            <label>{{ field.help_text }}</label><br />
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <div class="mx-6 mt-5">
+                        <input class="btn btn-primary" type="submit" name="submit" value="提交">
+                        <a class="btn btn-danger" style="float: right" href="/lonfly/product/{{ product_id }}/">返回</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

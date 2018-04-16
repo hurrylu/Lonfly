@@ -1,0 +1,29 @@
+{% extends 'lonfly/base.html' %}
+
+{% block title %}{{ produce.product }} - 删除生产程序{% endblock %}
+{% block menu  %}{{ produce.product_id }}{% endblock %}
+{% block menu_name %}产品{% endblock %}
+{% block submenu_name %}
+    <li class="breadcrumb-item active">
+        <a href="/lonfly/product/{{ produce.product_id }}/">{{ produce.product_id }}</a>
+    </li>
+{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="card card-columns mx-0 mt-3">
+            <div class="card-header">删除生产程序</div>
+            <div class="card-body">
+                <form id="produce_confirm_delete" method="post" action="">
+                    {% csrf_token %}
+                    <p>确认删除该条记录:<b>"{{ object.process }}"</b>?</p>
+                    <div class="mx-6 mt-5">
+                        <button type="submit" class="btn btn-success">提交</button>
+                        <a class="btn btn-danger" style="float: right" href="/lonfly/product/{{ produce.product_id }}">取消</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

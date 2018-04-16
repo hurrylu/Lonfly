@@ -1,0 +1,82 @@
+{% extends 'lonfly/base.html' %}
+
+{% block title %}{{ product.product_name }}{% endblock %}
+{% block menu  %}product_table{% endblock %}
+{% block menu_name %}产品{% endblock %}
+{% block submenu_name %}
+     <li class="breadcrumb-item active">
+        <a href="/lonfly/product/{{ product_id }}/">{{ product_id }}</a>
+    </li>
+{% endblock %}
+
+{% block body_block %}
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-table"></i>{{ product.product_name }}
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>工序</th>
+                            <th>材料规格</th>
+                            <th>定额数量</th>
+                            <th>作业员</th>
+                            <th>生产数量</th>
+                            <th>作业要点指导</th>
+                            <th>首检记录</th>
+                            <th>巡检记录</th>
+                            <th>日期</th>
+                            <th>检验员</th>
+                            <th>备注</th>
+                            {% if user.is_authenticated and not product.order_stats == "已完成" %}
+                            <th class="sorting_asc_disabled sorting_desc_disabled"></th>
+                            <th class="sorting_asc_disabled sorting_desc_disabled"></th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if product %}
+                            {% if produce_list %}
+                                {% for produce in produce_list %}
+                                <tr>
+                                    <td>{{ produce.process.name }}({{ produce.process.code }})</td>
+                                    <td>{{ produce.material.name }}({{ produce.material.code }})</td>
+                                    <td>{{ produce.assigned_num }}</td>
+                                    <td>{{ produce.operator }}</td>
+                                    <td>{{ produce.produce_num }}</td>
+                                    <td>{{ produce.process_des }}</td>
+                                    <td>{{ produce.detect_log }}</td>
+                                    <td>{{ produce.inspect_log }}</td>
+                                    <td>{{ produce.inspect_date }}</td>
+                                    <td>{{ produce.inspector }}</td>
+                                    <td>{{ produce.description }}</td>
+                                    {% if user.is_authenticated and not product.order_stats == "已完成" %}
+                                        <td>
+                                            <a href="/lonfly/product/{{ product.product_id }}/produce/{{ produce.id }}/update"><i class="fa fa-edit"></i>编辑</a>
+                                        </td>
+                                        <td>
+                                            <a href="/lonfly/product/{{ product.product_id }}/produce/{{ produce.id }}/delete"><i class="fa fa-remove"></i>删除</a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer small text-muted">数据更新时间：{{ table_update_time }}</div>
+    </div>
+    <div>
+        {% if user.is_authenticated and not product.order_stats == "已完成" %}
+        <a class="btn btn-primary" href="/lonfly/product/{{ product.product_id }}/add_produce/" id="add_produce">添加生产工序</a>
+        {% endif %}
+        <a class="btn btn-danger" style="float: right;" href="/lonfly/product_table/">返回</a>
+    </div>
+
+
+{% endblock %}
+

@@ -1,0 +1,68 @@
+{% extends 'lonfly/base.html' %}
+
+{% block title %}新用户注册{% endblock %}
+{% block menu  %}register{% endblock %}
+{% block menu_name %}新用户注册{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+       <div class="card card-register mx-0 mt-3">
+           <div class="card-header">新用户注册</div>
+           <div class="card-body">
+               {% if registered %}
+               <p>{{ username }},欢迎，您已成功注册!</p>
+               <p><a class="btn btn-dark" href="/lonfly/login/">返回登录</a></p>
+               {% else %}
+               <form id="user_form" method="post" action="/lonfly/register/" enctype="multipart/form-data">
+                   {% csrf_token %}
+                   <div class="form-group">
+                       <div class="form-row ">
+                           <div class="col-md-5 ">
+                               <label for="username">用户名：</label>
+                               <input class="form-control" type="text" id="username" name="username" value="{{ username }}" aria-describedby="nameHelp" placeholder="输入用户名">
+                           </div>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <div class="form-row">
+                           <div class="col-md-6">
+                               <label for="last_name">姓氏：</label>
+                               <input class="form-control" id="last_name" type="text" name="last_name" value="{{ last_name }}" aria-describedby="nameHelp" placeholder="输入姓">
+                           </div>
+                           <div class="col-md-6">
+                               <label for="first_name">名字：</label>
+                               <input class="form-control" id="first_name" type="text" name="first_name" value="{{ first_name }}" aria-describedby="nameHelp" placeholder="输入名">
+                           </div>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <label for="email">邮箱地址：</label>
+                       <input class="form-control" id="email" type="email" name="email" value="{{ email }}" aria-describedby="emailHelp" placeholder="输入邮箱地址">
+                   </div>
+                   <div class="form-group">
+                       <div class="form-row">
+                           <div class="col-md-6">
+                               <label for="password">密码：</label>
+                               <input class="form-control" id="password" type="password" name="password" value="{{ password }}" placeholder="输入密码">
+                           </div>
+                           <div class="col-md-6">
+                               <label for="confirm_password">确认密码：</label>
+                               <input class="form-control" id="confirm_password" type="password" name="confirm_password" value="{{ confirm_password }}" placeholder="确认密码">
+                           </div>
+                       </div>
+                   </div>
+                   <div class="text-center">
+                       <input class="btn btn-primary" type="submit" name="submit" value="注册" />
+                   </div>
+               </form>
+               {% endif %}
+               <div class="text-center">
+                   <a class="d-block small mt-3" href="/lonfly/login/">登录</a>
+                   <a class="d-block small" href="/lonfly/forgot-password/">忘记密码？</a>
+               </div>
+           </div>
+       </div>
+    </div>
+
+
+{% endblock %}

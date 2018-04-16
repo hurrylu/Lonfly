@@ -1,0 +1,35 @@
+{% extends 'lonfly/base.html' %}
+
+{% block title %}添加工序{% endblock %}
+{% block menu  %}procee_table{% endblock %}
+{% block menu_name %}工序{% endblock %}
+{% block submenu_name %}
+    <li class="breadcrumb-item active">
+        添加新工序
+    </li>
+{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="card card-columns mx-0 mt-3">
+            <div class="card-header">添加新工序</div>
+            <div class="card-body">
+                <form id="process_form" method="post" action="/lonfly/add_process/">
+                    {% csrf_token %}
+                    {% for field in formset %}
+                        <div class="form-group">
+                            {{ field.errors }}<br />
+                            <label>{{ field.help_text }}</label><br />
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <div class="mx-6 mt-5">
+                        <input class="btn btn-primary" type="submit" name="submit" value="提交">
+                        <a class="btn btn-danger" style="float: right;" href="/lonfly/process_table/">返回</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

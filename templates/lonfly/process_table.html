@@ -1,0 +1,52 @@
+{% extends 'lonfly/base.html' %}
+{% load static %}
+
+{% block title%}工序列表{% endblock %}
+{% block menu  %}process_table{% endblock %}
+{% block menu_name %}工序{% endblock %}
+
+{% block body_block %}
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-table"></i>工序列表</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>工序名称</th>
+                            <th>工序代码</th>
+                            {% if user.is_authenticated and user.username == "admin" %}
+                            <th class="sorting_asc_disabled sorting_desc_disabled"></th>
+                            <th class="sorting_asc_disabled sorting_desc_disabled"></th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if process_list %}
+                        {% for process in process_list %}
+                        <tr>
+                            <td>{{ process.name }}</td>
+                            <td>{{ process.code }}</td>
+                            {% if user.is_authenticated and user.username == "admin" %}
+                                <td>
+                                    <a href="{% url 'process_update' process.id %}"><i class="fa fa-edit"></i>编辑</a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'process_delete' process.id %}"><i class="fa fa-remove"></i>删除</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer small text-muted">数据更新时间：{{ table_update_time }}</div>
+    </div>
+    {% if user.is_authenticated and user.username == "admin" %}
+    <a class="btn btn-primary" href="{% url 'process_add' %}" id="process_add">添加新工序</a>
+    {% endif %}
+{% endblock %}
+

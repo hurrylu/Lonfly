@@ -1,0 +1,40 @@
+# -*- coding: utf-8 -*-
+from django.conf.urls import url
+from lonfly import views
+# from django.contrib.auth import views as auth_views
+
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+    url(r'^product_table/$', views.product_table, name='product_table'),
+    url(r'^process_table/$', views.process_table, name='process_table'),
+    url(r'^material_table/$', views.material_table, name='material_table'),
+    url(r'^worker_table/$', views.worker_table, name='worker_table'),
+    url(r'^about/', views.about, name='about'),
+    url(r'^add_product/$', views.add_product, name='add_product'),
+    url(r'^add_process/$', views.add_process, name='add_process'),
+    url(r'^add_material/$', views.add_material, name='add_material'),
+    url(r'^product/add/$', views.ProductAdd.as_view(), name='product_add'),
+    url(r'^product/(?P<pk>[\w.@+-]+)/update/$', views.ProductUpdate.as_view(), name='product_update'),
+    url(r'^product/(?P<pk>[\w.@+-]+)/delete/$', views.ProductDelete.as_view(), name='product_delete'),
+    url(r'^process/add/$', views.ProcessAdd.as_view(), name='process_add'),
+    url(r'^process/(?P<pk>[0-9]+)/update/$', views.ProcessUpdate.as_view(), name='process_update'),
+    url(r'^process/(?P<pk>[0-9]+)/delete/$', views.ProcessDelete.as_view(), name='process_delete'),
+    url(r'^material/add/$', views.MaterialAdd.as_view(), name='material_add'),
+    url(r'^material/(?P<pk>[0-9]+)/update/$', views.MaterialUpdate.as_view(), name='material_update'),
+    url(r'^material/(?P<pk>[0-9]+)/delete/$', views.MaterialDelete.as_view(), name='material_delete'),
+    url(r'^worker/add/$', views.WorkerAdd.as_view(), name='worker_add'),
+    url(r'^worker/(?P<pk>[0-9]+)/update/$', views.WorkerUpdate.as_view(), name='worker_update'),
+    url(r'^worker/(?P<pk>[0-9]+)/delete/$', views.WorkerDelete.as_view(), name='worker_delete'),
+    url(r'^product/(?P<product_id>[\w.@+-]+)/$', views.page_product, name='product'),
+    url(r'^product/(?P<product_id>[\w.@+-]+)/add_produce/$', views.add_produce, name='add_produce'),
+    url(r'^product/(?P<product_id>[\w.@+-]+)/produce/add/$', views.ProduceAdd.as_view(), name='produce_add'),
+    url(r'^product/(?P<product_id>[\w.@+-]+)/produce/(?P<pk>[0-9]+)/update/$', views.ProduceUpdate.as_view(), name='produce_update'),
+    url(r'^product/(?P<product_id>[\w.@+-]+)/produce/(?P<pk>[0-9]+)/delete/$', views.ProduceDelete.as_view(), name='produce_delete'),
+    url(r'^report_by_worker/$', views.report_by_worker, name='report_by_worker'),
+    url(r'^report_by_product/$', views.report_by_product, name='report_by_product'),
+    url(r'^register/$', views.register, name='register'),
+    url(r'^login/$', views.user_login, name='login'),
+    url(r'^change_password/$', views.ChangePassword, name='change_password'),
+    url(r'^restricted/$', views.restricted, name='restricted'),
+    url(r'^logout/$', views.user_logout, name='logout'),
+]

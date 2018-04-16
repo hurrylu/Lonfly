@@ -1,0 +1,29 @@
+{% extends 'lonfly/base.html' %}
+
+{% block title %}{{ worker.name }} - 移除员工{% endblock %}
+{% block menu  %}worker_table{% endblock %}
+{% block menu_name %}员工{% endblock %}
+{% block submenu_name %}
+    <li class="breadcrumb-item active">
+        {{ worker.worker_name }}
+    </li>
+{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <div class="card card-columns mx-0 mt-3">
+            <div class="card-header">删除员工记录</div>
+            <div class="card-body">
+                <form id="worker_form" method="post" action="">
+                    {% csrf_token %}
+                    <p>确认删除该条记录: <b>"{{ object }}"</b>?</p>
+                    <div class="mx-6 mt-5">
+                        <button type="submit" class="btn btn-success">提交</button>
+                        <a class="btn btn-danger" style="float: right" href="/lonfly/worker_table/">取消</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
